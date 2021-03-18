@@ -35,10 +35,9 @@ function addVertexAndFragmentSahders() {
    * */
   const sourceVertex = `
     attribute vec3 position;
-    uniform float u_Move;
   
     void main() {
-      gl_Position = vec4(position.x + (sin(u_Move) * .3), position.y, position.z, 1);
+      gl_Position = vec4(position.x, position.y, position.z, 1);
     }
   `
 
@@ -93,27 +92,14 @@ function addVertexAndFragmentSahders() {
 }
 
 function createGeometry() {
-  const positionsData = new Float32Array([
-    -0.5,
-    0.5,
-    0.5,
-    0.5,
-    0.5,
-    -0.5, // Triangle 1
-    -0.5,
-    0.5,
-    0.5,
-    -0.5,
-    -0.5,
-    -0.5, // Triangle 2
-  ])
+  const positionsData = new Float32Array([0, 0.7, 0, 0.3, 0.6, 0, 0.6, 0.3, 0, 0.7, 0, 0, 0.6, -0.3, 0, 0.3, -0.6, 0])
 
   const buffer = gl.createBuffer()
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, positionsData, gl.STATIC_DRAW)
 
   const attribute = gl.getAttribLocation(gl.program, "position")
-  gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0)
+  gl.vertexAttribPointer(attribute, 3, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray(attribute)
 }
 
@@ -122,14 +108,14 @@ function drawScene() {
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   // Set uniform value (u_Move) in vertex shader
-  var mvMatrixUniform = gl.getUniformLocation(gl.program, "u_Move")
-  gl.uniform1f(mvMatrixUniform, count)
+  //   var mvMatrixUniform = gl.getUniformLocation(gl.program, "u_Move")
+  //   gl.uniform1f(mvMatrixUniform, count)
 
   // Draw
-  gl.drawArrays(gl.TRIANGLES, 0, 6)
+  gl.drawArrays(gl.TRIANGLE_FAN, 0, 6)
 
-  count += 0.01
-  requestAnimationFrame(drawScene)
+  //   count += 0.01
+  //   requestAnimationFrame(drawScene)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
